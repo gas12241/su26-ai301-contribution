@@ -4,8 +4,11 @@
 
 
 **Contribution Number:** 1
+
 **Student:** George Alvarado-Salinas
+
 **Issue:** https://github.com/apache/fory/issues/1060
+
 **Status:** Phase I as of Tuesday, June 9th (Currently in Progress).
 
 ---
