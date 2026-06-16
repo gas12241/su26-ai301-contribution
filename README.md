@@ -29,15 +29,21 @@ From my very broad understanding, implementing a tuple serializer that uses Scal
 
 ### Expected Behavior
 
-[What should happen?]
+After looking further into it, the behavior in general should stay the same. Implementing the Tuple Serializer using Scala Generics would just make things more efficient, as type tags would not have to be made at runtime.
 
 ### Current Behavior
 
-I assume generics are not currently being used, s
+Because of the way it is written, something like:
+val tuple = Tuple2(100, 10000L)
+
+Is seen as a tuple with a couple of objects in it, instead of a tuple with a known type of (int, long).
 
 ### Affected Components
 
 [Which parts of the codebase are involved?]
+
+There are a couple parts of the codebase that are involved. The file that they mention by name in the issue report,
+"BaseObjectCodecBuilder," is in the Java side of the project. After that, most of the files that will be touched will be in the Scala side.
 
 ---
 
@@ -45,19 +51,20 @@ I assume generics are not currently being used, s
 
 ### Environment Setup
 
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+I switched from looking at the code in VSCode to IntelliJ because I think it's what's most often used when working with Java/Scala
+(I was also running into problems in VSCode that I believe were Java related). I ran the command "sbt test" which let me know that
+the test files in the Scala directory were being ran. 
 
 ### Steps to Reproduce
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+Considering this isn't a bug, there aren't many steps to reproduce. I think I just needed to be able to get the tests to run on my computer
+(verifying that any changes I make, alongside their respective tests, will be able to work).
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+- **Commit showing reproduction:** https://github.com/gas12241/fory/tree/fix-issue-1060-scala-tuple-serializer
+- **Screenshots/logs:** <img width="1709" height="1045" alt="image" src="https://github.com/user-attachments/assets/c852aeed-8cce-4f39-90fe-1ebdd54bf085" />
+- **My findings:** I found out that my default JDK broke my project, and setting it to 21 fixed it.
 
 ---
 
@@ -65,30 +72,38 @@ I assume generics are not currently being used, s
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+I have to get more accustomed to the codebase and see what I need to change, specifically the "BaseObjectCodecBuilder" file
+as it is massive and I'm hoping that by changing small parts of it, I won't run into any issues myself.
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+Create a tuple serializer in a new file that doesn't change the current behavior, but allows it to run more efficiently. Will
+be done by changing the "BaseObjectCodecBuilder" file to accept a ScalaTupleSerializer, and getting it to interact with the new
+Tuple Serializer.
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** Currently Scala Tuples are being serialized without knowing the type of the variables in the tuple. For example,
+reading a Tuple blindly like (100, 1000L, "str") means that when serialized, there will be a type tag attached to each of the variables.
+This leads to more things that need to be serialized/deserialized.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:** From my research in the codebase, there exists a serializer that deals with homogenous lists, that I can base my work off of
+(even if what I would be doing is working with tuples that include different types).
 
 **Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+1. Finish the testing for Scala Tuples (someone did the first 6, and last 3, but didn't do the ones in between)
 
-**Implement:** [Link to your branch/commits as you work]
+2. Create the Scala Serializer in the Scala part of the codebase.
 
-**Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+3. Modify the "BaseObjectCodecBuilder" to accept the new serializer.
 
-**Evaluate:** [How will you verify it works?]
+**Implement:** https://github.com/gas12241/fory/tree/fix-issue-1060-scala-tuple-serializer
+
+**Review:** I believe it does. I will admit, I have read their AI contribution guidelines and will have to extensively talk about my contributions using it, as I'm not sure if I'll be able to contribute without it (given the size of the codebase and given my inexperience with Scala).
+
+**Evaluate:** Run efficiency tests with and without the changes.
 
 ---
 
