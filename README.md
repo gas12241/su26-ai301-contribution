@@ -6,7 +6,7 @@
 
 **Issue:** https://github.com/wemake-services/django-modern-rest/issues/718 
 
-**Status:** Phase I Complete
+**Status:** Phase 2 Complete
 
 ---
 
@@ -20,19 +20,19 @@ I chose this issue because it seems like a great first issue to have. It is docu
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+There's technically not a problem per se, in the sense that there isn't a bug to fix. This issue requires the solver(me) to translate error messages into a different language that you're native/proficient in. I chose to do Spanish specific to Mexico, since that is the language I grew up speaking.
 
 ### Expected Behavior
 
-[What should happen?]
+There should be a file that has translations specific to Spanish from Mexico (es_MX)
 
 ### Current Behavior
 
-[What actually happens?]
+There is no file with Spanish specific to Mexico currently.
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
+When running commands given to us in the issue description, a new folder is made inside the dmr/locale directory that is specific to the language being translated to. It is in this folder that I will be doing work!
 
 ---
 
@@ -40,19 +40,32 @@ I chose this issue because it seems like a great first issue to have. It is docu
 
 ### Environment Setup
 
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+1. I cloned the fork of the repo
+2. Made a branch that I could work from
+3. Created a virtual environment and ran it
+4. pip installed Django
+5. Tried running the steps listed below
+6. Ran into an issue where uv was not a recognized command
+7. Installed uv using brew (am on a mac)
+8. Installed just
+9. Followed the steps below.
 
 ### Steps to Reproduce
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+#### NOTE: This was taken straight from the issue page. It really was as simple as these instructions (after installing uv, of course)!
+
+1. Run uv sync --all-groups --all-extras
+2. Run uv run django-admin makemessages -l YOUR_LOCALE, for example: uv run django-admin makemessages -l ru_RU, full list of locales: https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
+3. Translate the new file created in dmr/locale/${YOUR_LOCALE}/LC_MESSAGES/django.po
+4. Run uv run django-admin compilemessages
+5. Done! You are awesome, submit the PR :)
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+- **Commit showing reproduction:** https://github.com/gas12241/django-modern-rest
+- **Screenshots/logs:**
+<img width="1349" height="716" alt="image" src="https://github.com/user-attachments/assets/ec96075f-99d3-4876-aa34-59aed02d6198" />
+- **My findings:** The file comes with some things that I need to take out (which I referenced from multiple other translations that have happend, including after they've updated their terminal commands in the issue description).
 
 ---
 
@@ -60,30 +73,32 @@ I chose this issue because it seems like a great first issue to have. It is docu
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+I need to come up with translations for the error messages in the file pictured above. Then I need to cross reference them with something or someone who also speaks Mexican Spanish.
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+Do the translations by hand and get them checked by a second source (Will probably ask someone I know).
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** File that was made when I ran their terminal commands is missing translations
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:**
+Other translations exist in the parent directory. Will use those to format my translations.
 
-**Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+**Plan:** (Steps 3-5 from the "Steps to Reproduce" section above)
+1. Translate the new file created in dmr/locale/${YOUR_LOCALE}/LC_MESSAGES/django.po
+2. Run uv run django-admin compilemessages
+3. Done! You are awesome, submit the PR :)
 
-**Implement:** [Link to your branch/commits as you work]
+**Implement:** https://github.com/gas12241/django-modern-rest/tree/fix-issue-mx-spanish-translation
 
 **Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+The CONTRIBUTING.md file tells you pretty much the same things as their issue description does, so yes, it does follow the project's contribution guidelines.
 
-**Evaluate:** [How will you verify it works?]
+**Evaluate:** If it gets merged. So far there hesn't been many problems from other people doing the same thing as me, and the "manager" of the issue has been active so I should know fairly quickly.
 
 ---
 
