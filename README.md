@@ -6,7 +6,7 @@
 
 **Issue:** https://github.com/wemake-services/django-modern-rest/issues/718 
 
-**Status:** Phase 2 Complete
+**Status:** Phase 3 Complete
 
 ---
 
@@ -93,12 +93,14 @@ Other translations exist in the parent directory. Will use those to format my tr
 2. Run uv run django-admin compilemessages
 3. Done! You are awesome, submit the PR :)
 
-**Implement:** https://github.com/gas12241/django-modern-rest/tree/fix-issue-mx-spanish-translation
+**Implement:** https://github.com/gas12241/django-modern-rest/tree/issue-718
+
+I changed the name of the branch I was working in to follow the branch naming conventions stated in their CONTRIBUTING.md file.
 
 **Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
 The CONTRIBUTING.md file tells you pretty much the same things as their issue description does, so yes, it does follow the project's contribution guidelines.
 
-**Evaluate:** If it gets merged. So far there hesn't been many problems from other people doing the same thing as me, and the "manager" of the issue has been active so I should know fairly quickly.
+**Evaluate:** If it gets merged. So far there hesn't been many problems from other people doing the same thing as me, and the "manager" of the issue has been active so I should know fairly quickly. I will admit that not many tests have been written for translations (of the 7+ translations that are in the codebase, only two included integration tests. Of those two, none included unit tests). I think if I can get my pull request merged, I would be setting an example of the tests (By furthering the integration tests, and providing an example of a unit test).
 
 ---
 
@@ -106,36 +108,45 @@ The CONTRIBUTING.md file tells you pretty much the same things as their issue de
 
 ### Unit Tests
 
-- [ ] Test case 1: [Description]
-- [ ] Test case 2: [Description]
-- [ ] Test case 3: [Description]
+- [ ] Test case 1: The only unit test I did for my translations included getting a specific error back, and then certifying that the error message given back, is the same as the translated message that I gave in my translation.
 
 ### Integration Tests
 
-- [ ] Integration scenario 1
-- [ ] Integration scenario 2
+- [ ] For the Integration test, I will include comments from Claude. In essence, there are several calls back to back that make sure the previous language's error codes aren't bleeding into the next.
+- [ ] Claude's comment: The test body is five sequential requests on the same client, in the same test function, each checking that a POST with no auth token returns 401 Unauthorized with a JSON error body translated into whatever language was requested... This - my addition to the test - is deliberately placed last in the chain, because the point of ending on a non-default locale is to prove the test doesn't rely on reset_language silently resetting state back to English between requests — each request's translation must come from that request's own header, not leftover state from the previous one.
+
 
 ### Manual Testing
 
-[What you tested manually and results]
+I don't know if this counts as manual testing, but running their tests (using their command in their README) showed that the tests I added passed as well. There were 26 tests that failed, but after some prompting from Claude, I found out that those tests were not related to my work at all, and had to do with running a Redis Server
 
 ---
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week 3 Progress
 
-[What you built this week, challenges faced, decisions made]
-
-### Week [Y] Progress
-
-[Continue documenting as you work]
+After getting the directory made for my specific language that I am making translations into, I added the translations to the file made for me. Then I compiled the file. After compiling the file, I made sure to run tests that already existed. After all the tests that needed to pass, passed, I created my own unit test, and added on to their integration test.
 
 ### Code Changes
 
-- **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+- **Files modified:**
+- `dmr/locale/es_MX/LC_MESSAGES/django.po` — created and translated
+- `dmr/locale/es_MX/LC_MESSAGES/django.mo` — compiled translation
+- `django_test_app/server/settings.py` — registered `es-mx` in `LANGUAGES`
+- `tests/test_integration/test_jwt_auth/test_jwt_i18n.py` — added es-MX case to the i18n integration test
+- `tests/test_unit/test_i18n/test_strings.py` — added es-MX unit test
+
+- **Key commits:**
+- https://github.com/wemake-services/django-modern-rest/commit/0aa872704b3b83d07a485c429683fc7afc97d5bb
+- In the above commit, I compiled the translations into the mo file that is needed for the project. This commit is significant because while it really is running a command to compile the translations, it signified the end of the "work that I needed to do"
+
+- https://github.com/wemake-services/django-modern-rest/commit/b80182aa6c3ec380ab54998d1a946bacdabcf410
+- In the above commit, I wrote the tests needed for the translations using the given tests as an example. There weren't many to base my tests off of, so if my PR gets accepted, I will be used as an example others can base their tests off of.
+
+- **Approach decisions:** I think earlier I talked about doing the translations by hand and editing them alongside someone else. I realized that as someone who doesn't talk about these things with others in my native language, this was going to be hard. So I asked Claude for help translating and once I saw it written down, it was easier to modify them if I thought they weren't as correct as they could be. This was probably the best because my mind went blank when I saw the strings I needed to translate, but when I had something to build off of, I was able to do it seemlessly.
+
+- **Challenges I faced:** I originally named my branch after what was given to us in our step-by-step guide, which then had to be changed to follow their branch naming conventions. I asked Claude what to do about it, and it was very helpful in "changing" the name of the branch (I put it in quotes because in it's own words, it made a new branch with the current work, named it what I needed it to be, switched me to that one, and deleted my old one). After helping me with changing the branch name, I asked Claude to walk me through what it did in order to know in the future what I might have to do if I'm stuck in the same predicament. Another challenge I faced happened in the Integration test portion, where Claude implemented a test that ran using only my translation. While it passed, I looked into the code for the other test and questioned why Claude separated my test from the other longer one that had multiple languages in it. While separating the languages would make it easier to bug fix if one of the languages went wrong, the point of that integration test was to test if any remnants of the last language persisted into a call done in a different language. I pointed this out and Claude was eager to fix the issue, becoming more in line with what was already in the code base.
 
 ---
 
