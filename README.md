@@ -6,7 +6,7 @@
 
 **Issue:** https://github.com/wemake-services/django-modern-rest/issues/718 
 
-**Status:** Phase 4 In Progress
+**Status:** Phase 4 Completed!
 
 ---
 
