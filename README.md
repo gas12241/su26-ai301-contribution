@@ -20,7 +20,7 @@ I chose this issue because it seems like a great first issue to have. It is docu
 
 ### Problem Description
 
-There's technically not a problem per se, in the sense that there isn't a bug to fix. This issue requires the solver(me) to translate error messages into a different language that you're native/proficient in. I chose to do Spanish specific to Mexico, since that is the language I grew up speaking.
+There's technically not a problem per se, in the sense that there isn't a bug to fix. This issue requires the solver(me) to translate error messages into a different language that they're native/proficient in. I chose to do Spanish specific to Mexico, since that is the language I grew up speaking.
 
 ### Expected Behavior
 
@@ -52,7 +52,9 @@ When running commands given to us in the issue description, a new folder is made
 
 ### Steps to Reproduce
 
-#### NOTE: This was taken straight from the issue page. It really was as simple as these instructions (after installing uv, of course)!
+#### NOTE: This was taken straight from the issue page. I ran into no issues, and it really was as simple as these instructions (after installing uv, of course)! As a sidenote, since the language I chose was Spanish specific to Mexico, the new file made for me was named:
+
+```dmr/locale/es_MX/LC_MESSAGES/django.po```
 
 1. Run uv sync --all-groups --all-extras
 2. Run uv run django-admin makemessages -l YOUR_LOCALE, for example: uv run django-admin makemessages -l ru_RU, full list of locales: https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
@@ -62,7 +64,7 @@ When running commands given to us in the issue description, a new folder is made
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** https://github.com/gas12241/django-modern-rest
+- **Commit showing reproduction (my fork, the branch is linked below):** https://github.com/gas12241/django-modern-rest
 - **Screenshots/logs:**
 <img width="1349" height="716" alt="image" src="https://github.com/user-attachments/assets/ec96075f-99d3-4876-aa34-59aed02d6198" />
 - **My findings:** The file comes with some things that I need to take out (which I referenced from multiple other translations that have happend, including after they've updated their terminal commands in the issue description).
@@ -73,23 +75,23 @@ When running commands given to us in the issue description, a new folder is made
 
 ### Analysis
 
-I need to come up with translations for the error messages in the file pictured above. Then I need to cross reference them with something or someone who also speaks Mexican Spanish.
+I need to come up with translations for the error messages in the file pictured above. Either I will use Claude for them and manually check them, or I'll do them myself and run them by a second source (another person preferably, but possibly Claude).
 
 ### Proposed Solution
 
-Do the translations by hand and get them checked by a second source (Will probably ask someone I know).
+Do the translations by hand and get them checked by a second source.
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** File that was made when I ran their terminal commands is missing translations
+**Understand:** File that was made when I ran their terminal commands is missing translations. I have to add them, compile them, and turn them in.
 
 **Match:**
 Other translations exist in the parent directory. Will use those to format my translations.
 
 **Plan:** (Steps 3-5 from the "Steps to Reproduce" section above)
-1. Translate the new file created in dmr/locale/${YOUR_LOCALE}/LC_MESSAGES/django.po
+1. Translate the new file created in dmr/locale/es_MX/LC_MESSAGES/django.po
 2. Run uv run django-admin compilemessages
 3. Done! You are awesome, submit the PR :)
 
@@ -97,16 +99,18 @@ Other translations exist in the parent directory. Will use those to format my tr
 
 I changed the name of the branch I was working in to follow the branch naming conventions stated in their CONTRIBUTING.md file.
 
-**Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+**Review:**
 The CONTRIBUTING.md file tells you pretty much the same things as their issue description does, so yes, it does follow the project's contribution guidelines.
 
-**Evaluate:** If it gets merged. So far there hesn't been many problems from other people doing the same thing as me, and the "manager" of the issue has been active so I should know fairly quickly. I will admit that not many tests have been written for translations (of the 7+ translations that are in the codebase, only two included integration tests. Of those two, none included unit tests). I think if I can get my pull request merged, I would be setting an example of the tests (By furthering the integration tests, and providing an example of a unit test).
+**Evaluate:** If it gets merged. So far there hasn't been many problems from other people doing the same thing as me, and the maintainer of the issue has been active so I should know fairly quickly. I will admit that not many tests have been written for translations (of the 7+ translations that are in the codebase, only two included integration tests. Of those two, none included unit tests). I think if I can get my pull request merged, I would be setting an example of the tests (By furthering the integration tests, and providing an example of a unit test).
 
 ---
 
 ## Testing Strategy
 
 ### Unit Tests
+
+NOTE: I am writing this after I got my pull request merged. I was actually asked to remove my tests from my pull request in order for my code to be merged. That being said, I will leave the tests I wrote below to describe what I tried before they were eventually deleted.
 
 - [ ] Test case 1: The only unit test I did for my translations included getting a specific error back, and then certifying that the error message given back, is the same as the translated message that I gave in my translation.
 
@@ -126,13 +130,15 @@ I don't know if this counts as manual testing, but running their tests (using th
 
 ### Week 3 Progress
 
-After getting the directory made for my specific language that I am making translations into, I added the translations to the file made for me. Then I compiled the file. After compiling the file, I made sure to run tests that already existed. After all the tests that needed to pass, passed, I created my own unit test, and added on to their integration test.
+After getting the directory made for my specific language that I am making translations into, I added the translations to the file made for me. Then I compiled the file. After compiling the file, I made sure to run tests that already existed. After all the tests that needed to pass, passed, I created my own unit test, and added on to their integration test (These tests were taken out later on, as mentioned above in the Testing Strategy section).
 
 ### Code Changes
 
 - **Files modified:**
 - `dmr/locale/es_MX/LC_MESSAGES/django.po` — created and translated
 - `dmr/locale/es_MX/LC_MESSAGES/django.mo` — compiled translation
+
+- **Files modified, but later reverted back to their original states:**
 - `django_test_app/server/settings.py` — registered `es-mx` in `LANGUAGES`
 - `tests/test_integration/test_jwt_auth/test_jwt_i18n.py` — added es-MX case to the i18n integration test
 - `tests/test_unit/test_i18n/test_strings.py` — added es-MX unit test
@@ -141,12 +147,15 @@ After getting the directory made for my specific language that I am making trans
 - https://github.com/wemake-services/django-modern-rest/commit/0aa872704b3b83d07a485c429683fc7afc97d5bb
 - In the above commit, I compiled the translations into the mo file that is needed for the project. This commit is significant because while it really is running a command to compile the translations, it signified the end of the "work that I needed to do"
 
+NOTE: This commit was reverted, but at the time I thought it was significant given the lack of testing of the different languages.
+
 - https://github.com/wemake-services/django-modern-rest/commit/b80182aa6c3ec380ab54998d1a946bacdabcf410
 - In the above commit, I wrote the tests needed for the translations using the given tests as an example. There weren't many to base my tests off of, so if my PR gets accepted, I will be used as an example others can base their tests off of.
 
-- **Approach decisions:** I think earlier I talked about doing the translations by hand and editing them alongside someone else. I realized that as someone who doesn't talk about these things with others in my native language, this was going to be hard. So I asked Claude for help translating and once I saw it written down, it was easier to modify them if I thought they weren't as correct as they could be. This was probably the best because my mind went blank when I saw the strings I needed to translate, but when I had something to build off of, I was able to do it seemlessly.
+- **Approach decisions:** I think earlier I talked about doing the translations by hand and editing them alongside someone else or Claude. I realized that as someone who doesn't talk about these things with others in my native language, this was going to be hard. So I asked Claude for help translating and once I saw it written down, it was easier to modify them if I thought they weren't as correct as they could be. This was probably the best because my mind went blank when I saw the strings I needed to translate, but when I had something to build off of, I was able to do it seemlessly.
 
-- **Challenges I faced:** I originally named my branch after what was given to us in our step-by-step guide, which then had to be changed to follow their branch naming conventions. I asked Claude what to do about it, and it was very helpful in "changing" the name of the branch (I put it in quotes because in it's own words, it made a new branch with the current work, named it what I needed it to be, switched me to that one, and deleted my old one). After helping me with changing the branch name, I asked Claude to walk me through what it did in order to know in the future what I might have to do if I'm stuck in the same predicament. Another challenge I faced happened in the Integration test portion, where Claude implemented a test that ran using only my translation. While it passed, I looked into the code for the other test and questioned why Claude separated my test from the other longer one that had multiple languages in it. While separating the languages would make it easier to bug fix if one of the languages went wrong, the point of that integration test was to test if any remnants of the last language persisted into a call done in a different language. I pointed this out and Claude was eager to fix the issue, becoming more in line with what was already in the code base.
+- **Challenges I faced:** I originally named my branch after what was given to us in our step-by-step guide, which then had to be changed to follow their branch naming conventions. I asked Claude what to do about it, and it was very helpful in "changing" the name of the branch (I put it in quotes because in it's own words, it made a new branch with the current work, named it what I needed it to be, switched me to that one, and deleted my old one). After helping me with changing the branch name, I asked Claude to walk me through what it did in order to know in the future what I might have to do if I'm stuck in the same predicament.
+- Another challenge I faced happened in the Integration test portion, where Claude implemented a test that ran using only my translation. While it passed, I looked into the code for the other test and questioned why Claude separated my test from the other longer one that had multiple languages in it. While separating the languages would make it easier to bug fix if one of the languages went wrong, the point of that integration test was to test if any remnants of the last language persisted into a call done in a different language. I pointed this out and Claude was eager to fix the issue, becoming more in line with what was already in the code base. NOTE that this code ended up not being used in the end, but I think this was a good point in the project where I gave some push back to what Claude was originally suggesting I do.
 
 ---
 
@@ -156,7 +165,9 @@ After getting the directory made for my specific language that I am making trans
 
 **PR Description:**
 
-DISCLAIMER: This is the template we are given to fill out when creating a pull request. I know on our submission sheet it says to create a pull request that is detailed, but I followed this template (as well as the work of another recent pull request) to be in line with what works for the Code Reviewers.
+DISCLAIMER: This is the template we are given to fill out when creating a pull request. I know on our submission sheet it says to create a pull request that has more details, but I followed this template (as well as the work of another recent pull request) to be in line with what works for the Code Reviewers. I hope to not lose points given that I am following what was done before me.
+
+Below is the PR Description.
 
 I have made things!
 
@@ -182,7 +193,7 @@ I do not have any feedback!
 - 07/10: "This is not needed ;)" (and it points to the settings.py file where I added ex_MX as a language for an integration test)
 - 07/13: Took out the line in settings.py that allowed Spanish to be tested in the integration test.
 
-**Status:** Awaiting Review (I did the work from the feedback, now waiting for more feedback).
+**Status:** As of Tuesday, July 14th, my Pull Request was merged!
 
 ---
 
@@ -190,7 +201,7 @@ I do not have any feedback!
 
 ### Technical Skills Gained
 
-I think most of the technical skills I have gained came from Git. Claude would suggest git commands to run given what I wanted to do, so before I ran them, I asked about what they would do (to learn, but also to make sure I wasn't doing something I shouldn't be on Git). This isn't technical, but I would say I also gained some confidence in working with Git.
+I think most of the technical skills I have gained came from Git. Claude would suggest git commands to run given what I wanted to do, so before I ran them, I asked about what they would do (to learn, but also to make sure I wasn't doing something I shouldn't be on Git). On top of that, this isn't technical per se, but I would say I also gained some confidence in working with Git.
 
 ### Challenges Overcome
 
@@ -205,4 +216,5 @@ Honestly I would have asked about testing when I first realized that many of the
 ## Resources Used
 
 - The CONTRIBUTING.md file was helpful in letting me know what I needed to do to contribute translations specifically.
+- I know that sometimes there are specific translations for technicaly terms that aren't 1 to 1 between languages. I leaned on my findings throughout Google to make sure that the words being used for technical terms were the norm, and not the literal translation from one language to another.
 - I don't know if this counts, but I asked Claude to walk me through some of the git commands that it would recommend.
