@@ -6,7 +6,7 @@
 
 **Issue:** https://github.com/wemake-services/django-modern-rest/issues/718 
 
-**Status:** Phase 3 Complete
+**Status:** Phase 4 In Progress
 
 ---
 
@@ -152,15 +152,37 @@ After getting the directory made for my specific language that I am making trans
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** https://github.com/wemake-services/django-modern-rest/pull/1137
 
-**PR Description:** [Draft or final PR description - much of the content above can be adapted]
+**PR Description:**
+
+DISCLAIMER: This is the template we are given to fill out when creating a pull request. I know on our submission sheet it says to create a pull request that is detailed, but I followed this template (as well as the work of another recent pull request) to be in line with what works for the Code Reviewers.
+
+I have made things!
+
+AI Policy
+- I have read and agree to the AI Policy, removed any "Co-Authored-By" lines attributing coding agents, and manually reviewed the final result
+
+Checklist
+- I have double checked that there are no unrelated changes in this pull request (old patches, accidental config files, etc)
+- I have created at least one test case for the changes I have made
+- I have updated the documentation for the changes I have made
+
+Related issues
+
+Refs #718
+
+I do not have any feedback!
+
 
 **Maintainer Feedback:**
-- [Date]: [Summary of feedback received]
-- [Date]: [How you addressed it]
+- 07/10: "Please, revert the test changes :) We only test that the translation works there, not all languages."
+- 07/13: I asked the day I got the response if I needed to take out the unit test as well as the integration test (since it was tied to the line shown in the next piece of feedback). Without a response, I decided to remove both tests since most of the other languages that have been merged don't have a unit test either.
 
-**Status:** [Awaiting review / Iterating / Approved / Merged]
+- 07/10: "This is not needed ;)" (and it points to the settings.py file where I added ex_MX as a language for an integration test)
+- 07/13: Took out the line in settings.py that allowed Spanish to be tested in the integration test.
+
+**Status:** Awaiting Review (I did the work from the feedback, now waiting for more feedback).
 
 ---
 
@@ -168,20 +190,19 @@ After getting the directory made for my specific language that I am making trans
 
 ### Technical Skills Gained
 
-[What you learned technically]
+I think most of the technical skills I have gained came from Git. Claude would suggest git commands to run given what I wanted to do, so before I ran them, I asked about what they would do (to learn, but also to make sure I wasn't doing something I shouldn't be on Git). This isn't technical, but I would say I also gained some confidence in working with Git.
 
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+Installing Just for the project was a pain for me. For whatever reason, it wouldn't let me run just commands after installing it because it wasn't tied to my virtual environemnt. That was the hardest part of the assignment as most other things have been straightforward.
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process]
+Honestly I would have asked about testing when I first realized that many of the languages aren't tested. I stalled for a bit wondering if I should or shouldn't write tests given the lack of them in the codebase. I think I could have saved myself some time, as well as an iteration in my pull request if I had asked earlier.
 
 ---
 
 ## Resources Used
 
-- [Link to helpful documentation]
-- [Tutorial or Stack Overflow post that helped]
-- [GitHub issues or discussions that helped]
+- The CONTRIBUTING.md file was helpful in letting me know what I needed to do to contribute translations specifically.
+- I don't know if this counts, but I asked Claude to walk me through some of the git commands that it would recommend.
