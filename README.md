@@ -110,6 +110,14 @@ The CONTRIBUTING.md file tells you pretty much the same things as their issue de
 
 **Evaluate:** If it gets merged. So far there hasn't been many problems from other people doing the same thing as me, and the maintainer of the issue has been active so I should know fairly quickly. I will admit that not many tests have been written for translations (of the 7+ translations that are in the codebase, only two included integration tests. Of those two, none included unit tests). I think if I can get my pull request merged, I would be setting an example of the tests (By furthering the integration tests, and providing an example of a unit test).
 
+**Root Cause:** No one had contributed an es_MX locale yet. The project's i18n infrastructure already supported adding new languages, but Mexican Spanish translations for error messages (authentication failures, rate limiting, CSRF errors, etc.) hadn't been written.
+
+**Specific files to modify**
+
+The file ```dmr/locale/es_MX/LC_MESSAGES/django.po``` will be where we make our translations.
+
+The file ```dmr/locale/es_MX/LC_MESSAGES/django.mo``` will host the compilation of the translations.
+
 ---
 
 ## Testing Strategy
