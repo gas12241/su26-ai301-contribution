@@ -179,6 +179,9 @@ NOTE: This commit was reverted, but at the time I thought it was significant giv
 
 **PR Description:**
 
+**"Why" before "What"**
+The problem for this PR is that there wasn't error exception handling that translated into Mexican Spanish. By running commands found in their CONTRIBUTING.md file, we as contributors, can create a .po file (in it's own specific directory) that will host translations for error exception handling. We then compile these translations (into a .mo file) that will then get fed to users if they are to trigger specific exceptions. This allows people from many places the ability to work with the codebase, and not have the language barrier be the reason they can't continue with their work (in regards to this codebase).
+
 DISCLAIMER: This is the template we are given to fill out when creating a pull request. I know on our submission sheet it says to create a pull request that has more details, but I followed this template (as well as the work of another recent pull request) to be in line with what works for the Code Reviewers. I hope to not lose points given that I am following what was done before me.
 
 Below is the PR Description.
