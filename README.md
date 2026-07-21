@@ -202,6 +202,30 @@ Refs #718
 
 I do not have any feedback!
 
+## Before / After Evidence
+
+**Before:** No `es_MX` locale existed in `dmr/locale/` — Django would fall
+back to English for any request with `Accept-Language: es-MX`.
+
+**After:** Compiled `django.mo` resolves correctly via gettext:
+
+​```python
+import gettext
+t = gettext.translation('django', localedir='dmr/locale', languages=['es_MX'])
+print(t.gettext('Not authenticated'))
+print(t.gettext('Too many requests'))
+print(t.gettext('Internal server error'))
+print(t.gettext('BlocklistedJWToken'))
+​```
+
+Output:
+
+​```text
+No autenticado
+Demasiadas solicitudes
+Error interno del servidor
+JWToken en lista de bloqueo
+​```
 
 **Maintainer Feedback:**
 - 07/10: "Please, revert the test changes :) We only test that the translation works there, not all languages."
