@@ -20,7 +20,13 @@ I chose this issue because it seems like a great first issue to have. It is docu
 
 ### Problem Description
 
-There's technically not a problem per se, in the sense that there isn't a bug to fix. This issue requires the solver(me) to translate error messages into a different language that they're native/proficient in. I chose to do Spanish specific to Mexico, since that is the language I grew up speaking.
+**What's broken?**
+There is a lack of Error labels for exceptions in other languages (including Mexican Spanish).
+
+**Why does this issue matter?**
+This issue matters because adding error labels for exceptions means that people who do not speak english can interact with the codebase. This can then lead to even more contributions since the pool of people who can contribute, grows with every added language. 
+
+**Why did I choose this issue?** Making the codebase more accessible for people that speak the language I grew up speaking is more than enough foa reason to want to contribute in this way!
 
 ### Expected Behavior
 
